@@ -3,7 +3,10 @@ class dlHandler {
   void *handle{nullptr};
 
 public:
+  // opens with dlopen
   dlHandler(std::string_view, int flags);
+  // opens with dlmopen
+  dlHandler(int namespaceFlag, std::string_view, int flags);
   dlHandler(const dlHandler &) = delete;
   dlHandler(dlHandler &&);
   ~dlHandler();
