@@ -22,6 +22,9 @@ add_executable(${PROJECT_NAME} main.cxx)
 target_link_libraries(${PROJECT_NAME} utils)
 add_executable(mopenPlay mopen.cxx)
 target_link_libraries(mopenPlay utils)
+add_executable(loadPath loadPath.cxx)
+target_link_libraries(loadPath utils stdc++fs)
+
 
 #the plugins:
 foreach(plugin A B C)

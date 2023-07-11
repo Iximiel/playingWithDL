@@ -12,6 +12,8 @@ public:
   ~dlHandler();
   dlHandler &operator=(const dlHandler &) = delete;
   dlHandler &operator=(dlHandler &&) = delete;
+  bool isValid() const;
+  void close();
 };
 /*
 dlHandler &&loadLazy(std::string_view);

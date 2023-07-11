@@ -13,8 +13,19 @@ dlHandler::dlHandler(int namespaceFlag, std::string_view name, int flags)
 
 dlHandler::~dlHandler() {
   std::cerr << "close\n";
-  dlclose(handle);
+  if (handle) {
+    // turns out that dlclose does not accepts NULL or nullptr
+    dlclose(handle);
+  }
 }
+
+void dlHandler::close() {
+  std::cerr << "close\n";
+  dlclose(handle);
+  handle = nullptr;
+}
+
+bool dlHandler::isValid() const { return handle; }
 
 dlHandler::dlHandler(dlHandler &&other) : handle(other.handle) {
   other.handle = nullptr;
