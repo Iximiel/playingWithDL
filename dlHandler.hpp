@@ -1,3 +1,5 @@
+#ifndef DLHANDLER_HPP
+#define DLHANDLER_HPP
 #include <string_view>
 class dlHandler {
   void *handle{nullptr};
@@ -11,7 +13,7 @@ public:
   dlHandler(dlHandler &&);
   ~dlHandler();
   dlHandler &operator=(const dlHandler &) = delete;
-  dlHandler &operator=(dlHandler &&) = delete;
+  dlHandler &operator=(dlHandler &&); // = delete;
   bool isValid() const;
   void close();
 };
@@ -24,3 +26,4 @@ dlHandler &&loadNoDelete(std::string_view);
 dlHandler &&loadNoLoad(std::string_view);
 dlHandler &&loadDeepBind(std::string_view);
 */
+#endif // DLHANDLER_HPP

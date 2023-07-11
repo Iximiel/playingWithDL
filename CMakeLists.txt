@@ -16,7 +16,7 @@ set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS None Debug Release RelWithD
 
 include(GNUInstallDirs)
 
-add_library(utils dlHandler.cpp)
+add_library(utils SHARED dlHandler.cpp simpleRegister.cpp)
 target_link_libraries(utils ${CMAKE_DL_LIBS})
 add_executable(${PROJECT_NAME} main.cxx)
 target_link_libraries(${PROJECT_NAME} utils)
@@ -30,4 +30,5 @@ target_link_libraries(loadPath utils stdc++fs)
 foreach(plugin A B C)
   add_library(${plugin} SHARED ${plugin}.cpp)
   set_target_properties(${plugin} PROPERTIES PREFIX "")  
+  target_link_libraries(${plugin}  utils)
 endforeach(plugin)
