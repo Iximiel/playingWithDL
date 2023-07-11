@@ -24,11 +24,24 @@ add_executable(mopenPlay mopen.cxx)
 target_link_libraries(mopenPlay utils)
 add_executable(loadPath loadPath.cxx)
 target_link_libraries(loadPath utils stdc++fs)
-
-
+target_compile_definitions(loadPath PUBLIC PLUGINLOCATION="${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/playingWithDL/plugins")
+#NI is "not install"
+add_executable(loadPathNI loadPath.cxx)
+target_link_libraries(loadPathNI utils stdc++fs)
+target_compile_definitions(loadPathNI PUBLIC PLUGINLOCATION="${CMAKE_BINARY_DIR}")
+#I'm installing only loadPath and utilis, because the other exec cannot work outside the bin dir
+install(TARGETS loadPath utils
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+  
 #the plugins:
 foreach(plugin A B C)
   add_library(${plugin} SHARED ${plugin}.cpp)
   set_target_properties(${plugin} PROPERTIES PREFIX "")  
   target_link_libraries(${plugin}  utils)
+  install(TARGETS ${plugin}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/playingWithDL/plugins
+  )
 endforeach(plugin)

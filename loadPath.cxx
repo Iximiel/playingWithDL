@@ -14,20 +14,20 @@ const auto isPlugin = std::regex(".*\\.so");
 const auto isSharedLibrary = std::regex("lib.*\\.so");
 
 int main(int, char **) {
-  {
-    fs::path here = fs::current_path();
-    std::vector<std::string> listOfSo{};
-    for (auto const &dir_entry : fs::directory_iterator{here}) {
-      if (dir_entry.is_regular_file()) {
-        std::string fname = dir_entry.path().filename();
+  fs::path here = fs::path(PLUGINLOCATION);
+  std::vector<std::string> listOfSo{};
+  for (auto const &dir_entry : fs::directory_iterator{here}) {
+    if (dir_entry.is_regular_file()) {
+      std::string fname = dir_entry.path().filename();
 
-        if (std::regex_search(fname, isPlugin) &&
-            !std::regex_search(fname, isSharedLibrary)) {
-          listOfSo.emplace_back(dir_entry.path().string());
-        }
+      if (std::regex_search(fname, isPlugin) &&
+          !std::regex_search(fname, isSharedLibrary)) {
+        listOfSo.emplace_back(dir_entry.path().string());
       }
     }
-    myRegister::simpleRegister::get().plotActions();
+  }
+  myRegister::simpleRegister::get().plotActions();
+  {
     std::vector<dlHandler> loadedLibs;
 
     for (const auto &it : listOfSo) {
